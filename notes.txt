@@ -1,0 +1,18 @@
+let task = {
+    task_id: 0,
+    text: '',
+    name: '',
+    state: '',
+    notes: '',
+    completed_date: '',
+    created_date: '',
+    last_updated_date: '',
+}
+
+let project = {
+    project_id: 0,
+    name: '',
+    created_date: '',
+    tasks: [],
+    notes: ''
+}
