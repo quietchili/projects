@@ -45,7 +45,7 @@ function showSelectedProject(project_id){
         state_container.textContent = state;
 
         let tasks_container = document.createElement('div');
-        tasks_container.classList.add('tasks_container');
+        tasks_container.classList.add('all_tasks_container');
         state_container.append(tasks_container);
 
         projects.forEach(project => {
@@ -54,7 +54,22 @@ function showSelectedProject(project_id){
                     if(task.state == state){
                         let new_task_container = document.createElement('div');
                         new_task_container.classList.add('task_container');
-                        let new_task_input = document.createElement('input');
+                        let new_task_name_input = document.createElement('input');
+                        new_task_name_input.value = task.name;
+                        new_task_name_input.classList.add('new_task_name_input')
+                        new_task_name_input.addEventListener('change', function(){
+                            task.name = new_task_name_input.value;
+                            saveProject(project);
+                            update(project_id);
+                        })
+                        let new_task_text_input = document.createElement('textarea');
+                        new_task_text_input.value = task.text;
+                        new_task_text_input.classList.add('new_task_text_input');
+                        new_task_text_input.addEventListener('change', function(){
+                            task.text = new_task_text_input.value;
+                            saveProject(project);
+                            update(project_id);
+                        })
 
                         let close_span = document.createElement('span');
                         close_span.textContent = "x"
@@ -63,11 +78,32 @@ function showSelectedProject(project_id){
                             if(confirm('Are you sure you want to delete this task?')){
                                 project.tasks.splice(index,1)
                                 saveProject(project);
+                                update(project_id);
                             }
-                            console.log(index);
                         });
+
+
+                        let state_select = document.createElement('select');
+                        state_select.classList.add('state_select')
+                        TASK_STATES.forEach(state_option_text => {
+                            let new_state_option = document.createElement('option');
+                            new_state_option.value = state_option_text;
+                            new_state_option.innerHTML = state_option_text;
+                            state_select.append(new_state_option)
+                            if(task.state == state_option_text){
+                                new_state_option.selected = true;
+                            }
+                        });
+                        state_select.addEventListener('change',function(){
+                            task.state = state_select.value;
+                            saveProject(project);
+                            update(project_id);
+                        })
+
                         new_task_container.append(close_span)
-                        new_task_container.append(new_task_input)
+                        new_task_container.append(new_task_name_input)
+                        new_task_container.append(new_task_text_input)
+                        new_task_container.append(state_select);
                         tasks_container.append(new_task_container)
                     }
                 });
@@ -161,7 +197,7 @@ function load(){
 }
 
 function start(){
-    const request = window.indexedDB.open(db_name, 2);
+    const request = window.indexedDB.open(db_name, 1);
     request.onerror = function(event){
         console.error("error opening database", event);
         alert('Did Not Start Correctly See Logs');

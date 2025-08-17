@@ -8,15 +8,18 @@
     <script src="main.js" defer></script>
 </head>
 <body>
-    <div id="create_project_container">
+    <div id="controls_container">
+        <h3>Controls:</h3>
+        <div id="create_project_container">
+            <label>
+                Project Name: <input type="text" id="project_name_input">
+            </label>
+            <button type="button" id="create_project_button">Create Project</button>
+        </div>
         <label>
-            Project Name: <input type="text" id="project_name_input">
+            Select a Project: <select name="projects_list_dropdown" id="projects_list_dropdown"></select>
         </label>
-        <button type="button" id="create_project_button">Create Project</button>
     </div>
-    <label>
-        Select a Project: <select name="projects_list_dropdown" id="projects_list_dropdown"></select>
-    </label>
     <div id="selected_project_container">
         <h1 id="project_name_title"></h1>
         <div id="all_states_container"></div>
